@@ -66,8 +66,23 @@ public class TalkFacade {
         }
     }
 
+    //USERSTORY - 2 GET TALKS IN SPECIFIC CONFERENCE
+    public TalkDTOs getAllTalksInSpecificConference(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
 
-    //delete boat Solve us 7
+            TypedQuery<Talk> query = em.createQuery("SELECT t from Talk t JOIN t.conference c WHERE c.id =:id ", Talk.class);
+            query.setParameter("id", id);
+
+            List<Talk> talks = query.getResultList();
+            return new TalkDTOs(talks);
+        } finally {
+            em.close();
+        }
+    }
+
+
+    //delete Talk USER STORY 7
     public TalkDTO deleteTalk(int id) throws WebApplicationException {
         EntityManager em = emf.createEntityManager();
         Talk talk = em.find(Talk.class, id);

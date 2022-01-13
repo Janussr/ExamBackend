@@ -95,17 +95,19 @@ class TalkFacadeTest {
 
     //TODO: CREATETALK TEST & REST
     //TODO: GETALLTALKS TEST & REST
+    //TODO: GETALLTALKS IN SPECIFIC CONFERENCE TEST & REST
+    //TODO: DELETE TALKS TEST & REST
 
 
   //  @Test
-  //  public void deleteBaotTest(){
+  //  public void deleteTalkTest(){
   //      facade.deleteTalk(t4.getId());
 //
   //      assertEquals(2,facade.getAllTalks().getSize());
   //  }
 //
   //  @Test
-  //  public void deleteBoatTest() {
+  //  public void deleteTallkTest() {
   //      facade.deleteTalk(t4.getId());
 //
   //      List<TalkDTO> allTalks = facade.getAllTalks().getTalks();

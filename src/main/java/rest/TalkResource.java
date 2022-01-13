@@ -51,4 +51,12 @@ public class TalkResource {
         TalkDTO talkDeleted = facade.deleteTalk(id);
         return gson.toJson(talkDeleted);
     }
+
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String getAllTalksFromSpecificConference(@PathParam("id")int id){
+        return gson.toJson(facade.getAllTalksInSpecificConference(id));
+    }
 }
