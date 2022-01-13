@@ -100,9 +100,9 @@ public class ConferenceResourceTest {
         try {
             em.getTransaction().begin();
             //Delete existing users and roles to get a "fresh" database
-            em.createQuery("delete from Conference ").executeUpdate();
-            em.createQuery("delete from Talk ").executeUpdate();
             em.createQuery("delete from Speaker ").executeUpdate();
+            em.createQuery("delete from Talk ").executeUpdate();
+            em.createQuery("delete from Conference ").executeUpdate();
             em.persist(t1);
             em.persist(t2);
             em.persist(t3);
@@ -188,7 +188,7 @@ public class ConferenceResourceTest {
 
     //TODO: Get THIS TEST TO WORK.
     @Test
-    public void testAll() {
+    public void testGetAll() {
         List<ConferenceDTO> conferences;
 
 

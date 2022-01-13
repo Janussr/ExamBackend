@@ -97,7 +97,17 @@ class TalkFacadeTest {
 
     @AfterEach
     public void tearDown() {
+        EntityManager em = emf.createEntityManager();
 
+        try {
+            em.getTransaction().begin();
+            em.createQuery("delete from Talk ").executeUpdate();
+            em.createQuery("delete from Speaker ").executeUpdate();
+            em.createQuery("delete from Conference ").executeUpdate();
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
     //TODO: CREATETALK TEST & REST
