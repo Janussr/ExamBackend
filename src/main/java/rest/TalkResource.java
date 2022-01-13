@@ -59,4 +59,22 @@ public class TalkResource {
     public String getAllTalksFromSpecificConference(@PathParam("id")int id){
         return gson.toJson(facade.getAllTalksInSpecificConference(id));
     }
+
+    @Path("/byspeaker/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String getAllTalksFromSpecificSpeaker(@PathParam("id")int id){
+        return gson.toJson(facade.getAllTalksBySpeaker(id));
+    }
+
+    @Path("/changespeaker/{id}/{newId}/{oldId}")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String changeSpeaker(@PathParam("id")int id,@PathParam("oldId") int oldId,@PathParam("newId") int newId){
+        facade.updateTalkSpeaker(id,newId,oldId);
+        return "";
+    }
+
 }

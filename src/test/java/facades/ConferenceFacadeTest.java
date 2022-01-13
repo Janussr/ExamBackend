@@ -96,14 +96,7 @@ class ConferenceFacadeTest {
     //TODO:CREATE CONFERENCE TEST & REST
 
 
-    //GetAll Conferences
-    @Test
-    public void getAllBoats(){
-        //I expect the two conferences made in test setup.
-        long expected = 2;
-        long actual = facade.getAllConferences().getSize();
-        assertEquals(expected,actual);
-    }
+
 
 
 

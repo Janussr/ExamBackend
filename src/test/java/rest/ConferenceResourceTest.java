@@ -1,6 +1,7 @@
 package rest;
 
 import dtos.Conference.ConferenceDTO;
+import dtos.Talk.TalkDTO;
 import entities.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -88,6 +89,13 @@ public class ConferenceResourceTest {
         s1 = new Speaker("Janus","Drummer","male");
         s2 = new Speaker("Frederik","Gamer","male");
 
+        c1.addTalk(t1);
+        c1.addTalk(t2);
+        c2.addTalk(t3);
+        c2.addTalk(t4);
+
+        t1.addSpeaker(s1);
+        t1.addSpeaker(s2);
 
         try {
             em.getTransaction().begin();
@@ -147,11 +155,43 @@ public class ConferenceResourceTest {
                 .statusCode(HttpStatus.OK_200.getStatusCode());
     }
 
+    @Test
+    public void testDelete() {
+
+
+        given()
+                .contentType("application/json")
+                .pathParam("id", t2.getId())
+                .delete("/talk/{id}")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode());
+
+
+        List<TalkDTO> allTalks;
+
+        allTalks = given()
+                .contentType("application/json")
+                .when()
+                .get("/talk/all")
+                .then()
+                .extract()
+                .body()
+                .jsonPath()
+                .getList("talks", TalkDTO.class);
+
+        TalkDTO t2DTO = new TalkDTO(t2);
+
+        assertThat(allTalks, not(hasItem(t2DTO)));
+    }
+
 
     //TODO: Get THIS TEST TO WORK.
     @Test
-    public void testGetAll() {
+    public void testAll() {
         List<ConferenceDTO> conferences;
+
+
 
         ConferenceDTO c1DTO = new ConferenceDTO(c1);
         ConferenceDTO c2DTO = new ConferenceDTO(c2);
@@ -163,12 +203,15 @@ public class ConferenceResourceTest {
                 .extract()
                 .body()
                 .jsonPath()
-                .getList("owners", ConferenceDTO.class);
+                .getList("conferenceDTOs", ConferenceDTO.class);
 
 
-        //assertEquals(2, conferences.size());
+        assertEquals(2, conferences.size());
 
-        //assertThat(conferences, containsInAnyOrder(c1DTO, c2DTO));
+        assertThat(conferences, containsInAnyOrder(c1DTO, c2DTO));
     }
+
+
+
 
 }

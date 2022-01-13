@@ -4,12 +4,14 @@ import dtos.Conference.ConferenceDTOs;
 import dtos.Talk.TalkDTO;
 import dtos.Talk.TalkDTOs;
 import entities.Conference;
+import entities.Speaker;
 import entities.Talk;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.WebApplicationException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TalkFacade {
@@ -81,6 +83,56 @@ public class TalkFacade {
         }
     }
 
+    //USERSTORY - 3 GET TALKS BY SPECIFIC SPEAKER
+    public TalkDTOs getAllTalksBySpeaker(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+
+
+            TypedQuery<Talk> query = em.createQuery("SELECT t from Talk t JOIN t.speakers s WHERE s.id =:id ", Talk.class);
+            query.setParameter("id", id);
+
+            List<Talk> talks = query.getResultList();
+            return new TalkDTOs(talks);
+        } finally {
+            em.close();
+        }
+    }
+
+    public TalkDTO getSpecificTalk(int talkId)
+    {
+        EntityManager em = emf.createEntityManager();
+
+        Talk talk = em.find(Talk.class, talkId);
+
+        TalkDTO talkDto = new TalkDTO(talk);
+
+        return talkDto;
+    }
+
+    //US -5
+    public TalkDTO updateTalkSpeaker(int talkId, int newSpeakerId, int oldSpeakerId) {
+        EntityManager em = emf.createEntityManager();
+
+        Talk talk = em.find(Talk.class, talkId);
+        Speaker newSpeaker = em.find(Speaker.class, newSpeakerId);
+        Speaker oldSpeaker = em.find(Speaker.class, oldSpeakerId);
+
+        List<Speaker> speakers = talk.getSpeakers();
+        int index = speakers.indexOf(oldSpeaker);
+
+        speakers.set(index, newSpeaker);
+        talk.setSpeakers(speakers);
+
+        try {
+            em.getTransaction().begin();
+            em.merge(talk);
+            em.getTransaction().commit();
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 
     //delete Talk USER STORY 7
     public TalkDTO deleteTalk(int id) throws WebApplicationException {

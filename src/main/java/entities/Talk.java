@@ -86,4 +86,12 @@ public class Talk {
         this.id = id;
     }
 
+    //Adds a talk to a speaker (populates the link table between talk and speaker in SQL)
+    public void addSpeaker(Speaker speaker){
+        if (speaker != null){
+            this.speakers.add(speaker);
+            speaker.getTalks().add(this);
+        }
+    }
+
 }
