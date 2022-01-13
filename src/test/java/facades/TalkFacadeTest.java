@@ -101,8 +101,8 @@ class TalkFacadeTest {
 
         try {
             em.getTransaction().begin();
-            em.createQuery("delete from Talk ").executeUpdate();
             em.createQuery("delete from Speaker ").executeUpdate();
+            em.createQuery("delete from Talk ").executeUpdate();
             em.createQuery("delete from Conference ").executeUpdate();
             em.getTransaction().commit();
         } finally {
