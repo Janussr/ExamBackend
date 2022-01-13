@@ -28,7 +28,7 @@ public class ConferenceDTOs {
     //Used to UnitTest "getAllTests"
     public int getSize() {
         int counter = 0;
-        for (ConferenceDTO b : conferenceDTOs) {
+        for (ConferenceDTO c : conferenceDTOs) {
             counter++;
         }
         return counter;
