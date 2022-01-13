@@ -14,7 +14,7 @@ public class TalkDTO {
     private int duration;
     private String propsList;
     private List<SpeakerDTO> speakers;
-    private ConferenceDTO conferenceDTO;
+    private ConferenceDTO conference;
 
 
     public TalkDTO(Talk talk) {
@@ -25,16 +25,9 @@ public class TalkDTO {
         //When we create a talk we give it a speaker.
         this.speakers = SpeakerDTO.getFromList(talk.getSpeakers());
         //When we create a talk, it has to have a conference.
-        this.conferenceDTO = new ConferenceDTO(talk.getConference());
+        this.conference = new ConferenceDTO(talk.getConference());
     }
 
-
-    //Used to make a list of dto, so we can use it in DTO's class.
-    public static List<TalkDTO> getFromList(List<Talk> talks) {
-        return talks.stream()
-                .map(talk -> new TalkDTO(talk))
-                .collect(Collectors.toList());
-    }
 
     public Integer getId() {
         return id;
@@ -68,12 +61,12 @@ public class TalkDTO {
         this.propsList = propsList;
     }
 
-    public ConferenceDTO getConferenceDTO() {
-        return conferenceDTO;
+    public ConferenceDTO getConference() {
+        return conference;
     }
 
-    public void setConferenceDTO(ConferenceDTO conferenceDTO) {
-        this.conferenceDTO = conferenceDTO;
+    public void setConference(ConferenceDTO conference) {
+        this.conference = conference;
     }
 
     public List<SpeakerDTO> getSpeakers() {
@@ -84,19 +77,27 @@ public class TalkDTO {
         this.speakers = speakers;
     }
 
+    //Used to make a list of dto, so we can use it in DTO's class.
+    public static List<TalkDTO> getFromList(List<Talk> talks) {
+        return talks.stream()
+                .map(talk -> new TalkDTO(talk))
+                .collect(Collectors.toList());
+    }
 
     //In case I need it for testing
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TalkDTO talkDTO = (TalkDTO) o;
-        return duration == talkDTO.duration && Objects.equals(id, talkDTO.id) && Objects.equals(topic, talkDTO.topic) && Objects.equals(propsList, talkDTO.propsList) && Objects.equals(conferenceDTO, talkDTO.conferenceDTO) && Objects.equals(speakers, talkDTO.speakers);
+        return duration == talkDTO.duration && Objects.equals(id, talkDTO.id) && Objects.equals(topic, talkDTO.topic) && Objects.equals(propsList, talkDTO.propsList) && Objects.equals(speakers, talkDTO.speakers) && Objects.equals(conference, talkDTO.conference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, topic, duration, propsList, conferenceDTO, speakers);
+        return Objects.hash(id, topic, duration, propsList, speakers, conference);
     }
 
     @Override
@@ -106,8 +107,8 @@ public class TalkDTO {
                 ", topic='" + topic + '\'' +
                 ", duration=" + duration +
                 ", propsList='" + propsList + '\'' +
-                ", conferenceDTO=" + conferenceDTO +
                 ", speakers=" + speakers +
+                ", conference=" + conference +
                 '}';
     }
 }

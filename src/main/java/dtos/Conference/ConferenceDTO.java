@@ -25,11 +25,7 @@ public class ConferenceDTO {
         this.time = conference.getTime();
     }
 
-    public static List<ConferenceDTO> getFromList(List<Conference> conferences) {
-        return conferences.stream()
-                .map(conference -> new ConferenceDTO(conference))
-                .collect(Collectors.toList());
-    }
+
 
     public Integer getId() {
         return id;
@@ -79,6 +75,12 @@ public class ConferenceDTO {
         this.time = time;
     }
 
+
+    public static List<ConferenceDTO> getFromList(List<Conference> conferences) {
+        return conferences.stream()
+                .map(conference -> new ConferenceDTO(conference))
+                .collect(Collectors.toList());
+    }
 
     //BELOW CODE IS USED FOR TESTING
 

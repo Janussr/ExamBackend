@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.Talk.TalkDTO;
 import entities.Conference;
 import entities.Speaker;
 import entities.Talk;
@@ -9,37 +10,36 @@ import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.*;
 
-class ConferenceFacadeTest {
+class TalkFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static ConferenceFacade facade;
+    private static TalkFacade facade;
 
     private static Conference c1, c2;
     private static Speaker s1, s2;
     private static Talk t1, t2, t3, t4;
 
-    public ConferenceFacadeTest() {
+    public TalkFacadeTest() {
     }
 
     @BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-        facade = ConferenceFacade.getInstance(emf);
+        facade = TalkFacade.getInstance(emf);
     }
 
     @AfterAll
     public static void tearDownClass() {
-    //Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+        //Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
     }
 
     // Setup the DataBase in a known state BEFORE EACH TEST
@@ -93,19 +93,32 @@ class ConferenceFacadeTest {
         }
     }
 
-    //TODO:CREATE CONFERENCE TEST & REST
+    //TODO: CREATETALK TEST & REST
+    //TODO: GETALLTALKS TEST & REST
 
 
-    //GetAll Conferences
-    @Test
-    public void getAllBoats(){
-        //I expect the two conferences made in test setup.
-        long expected = 2;
-        long actual = facade.getAllConferences().getSize();
-        assertEquals(expected,actual);
-    }
+  //  @Test
+  //  public void deleteBaotTest(){
+  //      facade.deleteTalk(t4.getId());
+//
+  //      assertEquals(2,facade.getAllTalks().getSize());
+  //  }
+//
+  //  @Test
+  //  public void deleteBoatTest() {
+  //      facade.deleteTalk(t4.getId());
+//
+  //      List<TalkDTO> allTalks = facade.getAllTalks().getTalks();
+//
+  //      assertEquals(2, allTalks.size());
+//
+    //  TalkDTO t1DTO = new TalkDTO(t1);
+    //  TalkDTO t2DTO = new TalkDTO(t2);
+    //  TalkDTO t3DTO = new TalkDTO(t3);
+    //  TalkDTO t4DTO = new TalkDTO(t4);
 
-
-
+    //    assertThat(allTalks, not(hasItem(t3DTO)));
+    //    assertThat(allTalks, containsInAnyOrder(t1DTO, t2DTO,t3DTO,t4DTO));
+   // }
 
 }

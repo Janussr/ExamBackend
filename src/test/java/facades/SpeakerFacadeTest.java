@@ -3,43 +3,42 @@ package facades;
 import entities.Conference;
 import entities.Speaker;
 import entities.Talk;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.*;
 
-class ConferenceFacadeTest {
-
+class SpeakerFacadeTest {
     private static EntityManagerFactory emf;
-    private static ConferenceFacade facade;
+    private static SpeakerFacade facade;
 
     private static Conference c1, c2;
     private static Speaker s1, s2;
     private static Talk t1, t2, t3, t4;
 
-    public ConferenceFacadeTest() {
+    public SpeakerFacadeTest() {
     }
 
     @BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-        facade = ConferenceFacade.getInstance(emf);
+        facade = SpeakerFacade.getInstance(emf);
     }
 
     @AfterAll
     public static void tearDownClass() {
-    //Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+        //Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
     }
 
     // Setup the DataBase in a known state BEFORE EACH TEST
@@ -48,7 +47,7 @@ class ConferenceFacadeTest {
         EntityManager em = emf.createEntityManager();
 
         c1 = new Conference("Blizzcon","USA",5000,"24-04-2024","18:00" );
-        c2 = new Conference("Charity","Denmark",2500,"31-08-2024","11:00");
+        c2 = new Conference("Twitchcon","Denmark",2500,"31-08-2024","11:00");
 
         t1 = new Talk("Drummer",5,"drums");
         t2 = new Talk("Drummer",5,"drums");
@@ -92,20 +91,5 @@ class ConferenceFacadeTest {
             em.close();
         }
     }
-
-    //TODO:CREATE CONFERENCE TEST & REST
-
-
-    //GetAll Conferences
-    @Test
-    public void getAllBoats(){
-        //I expect the two conferences made in test setup.
-        long expected = 2;
-        long actual = facade.getAllConferences().getSize();
-        assertEquals(expected,actual);
-    }
-
-
-
 
 }

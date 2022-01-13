@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtos.Conference.ConferenceDTO;
 import facades.ConferenceFacade;
 import utils.EMF_Creator;
 
@@ -30,5 +31,16 @@ public class ConferenceResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllConfereneces(){
         return gson.toJson(facade.getAllConferences());
+    }
+
+
+    @Path("/create")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String createConference(String conference){
+        ConferenceDTO conferenceDTO = gson.fromJson(conference, ConferenceDTO.class);
+        ConferenceDTO conferenceDTONew = facade.createConference(conferenceDTO);
+        return gson.toJson(conferenceDTONew);
     }
 }

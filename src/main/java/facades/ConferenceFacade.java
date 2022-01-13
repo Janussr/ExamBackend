@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.Conference.ConferenceDTO;
 import dtos.Conference.ConferenceDTOs;
 import entities.Conference;
 
@@ -28,6 +29,23 @@ public class ConferenceFacade {
         return emf.createEntityManager();
     }
 
+    //CREATE CONFERENCE BY ITSELF
+    public ConferenceDTO createConference(ConferenceDTO conferenceDTO){
+        EntityManager em = emf.createEntityManager();
+        Conference conference = new Conference(conferenceDTO.getName(), conferenceDTO.getLocation(), conferenceDTO.getCapacity(), conferenceDTO.getDate(), conferenceDTO.getTime());
+        try {
+            em.getTransaction().begin();
+            em.persist(conference);
+            em.getTransaction().commit();
+
+            return new ConferenceDTO(conference);
+        }finally {
+            em.close();
+        }
+    }
+
+
+    // USERSTORY 1
     public ConferenceDTOs getAllConferences(){
         EntityManager em = emf.createEntityManager();
         try {
