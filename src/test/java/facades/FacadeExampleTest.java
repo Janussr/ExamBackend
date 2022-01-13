@@ -8,7 +8,6 @@ import javax.persistence.EntityManagerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//Uncomment the line below, to temporarily disable this test
 /*public class FacadeExampleTest {
 
     private static EntityManagerFactory emf;
