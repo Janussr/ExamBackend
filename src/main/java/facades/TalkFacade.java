@@ -35,25 +35,36 @@ public class TalkFacade {
     }
 
 
-    //USERSTORY -4 AND CONNECTS TO A CON
-    public TalkDTO createTalk(TalkDTO talkDTO) {
+    //USERSTORY -4 AND CONNECTS TO A CONFERENCE
+    public TalkDTO createTalk(TalkDTO talkDTO) throws WebApplicationException {
         EntityManager em = emf.createEntityManager();
-        Talk talk = new Talk(talkDTO.getTopic(), talkDTO.getDuration(), talkDTO.getPropsList());
+        if (talkDTO.getDuration() > 10 || talkDTO.getDuration() < 1) {
+            throw new WebApplicationException("The timer" + talkDTO.getDuration() + "Has to be between: 0 - 10 minutes");
 
-        //Adds the conference to the talk, when talk is created.
-        TypedQuery<Conference> query = em.createQuery("SELECT c FROM Conference c WHERE c.id =:conferenceId", Conference.class);
-        query.setParameter("conferenceId", talkDTO.getConference().getId());
-        Conference conference = query.getSingleResult();
-        talk.setConference(conference);
+        } else {
+            Talk talk = new Talk(talkDTO.getTopic(), talkDTO.getDuration(), talkDTO.getPropsList());
 
-        try {
-            em.getTransaction().begin();
-            em.persist(talk);
-            em.getTransaction().commit();
-            return new TalkDTO(talk);
 
-        } finally {
-            em.close();
+            //Adds the conference to the talk, when talk is created.
+            TypedQuery<Conference> query = em.createQuery("SELECT c FROM Conference c WHERE c.id =:conferenceId", Conference.class);
+            query.setParameter("conferenceId", talkDTO.getConference().getId());
+            Conference conference = query.getSingleResult();
+            talk.setConference(conference);
+
+            if (talkDTO.getDuration() > 10 || talkDTO.getDuration() < 0) {
+                throw new WebApplicationException("The timer" + talkDTO.getDuration() + "Has to be between: 0 - 10 minutes");
+
+            }
+
+            try {
+                em.getTransaction().begin();
+                em.persist(talk);
+                em.getTransaction().commit();
+                return new TalkDTO(talk);
+
+            } finally {
+                em.close();
+            }
         }
     }
 
@@ -99,8 +110,7 @@ public class TalkFacade {
         }
     }
 
-    public TalkDTO getSpecificTalk(int id)
-    {
+    public TalkDTO getSpecificTalk(int id) {
         EntityManager em = emf.createEntityManager();
 
         try {

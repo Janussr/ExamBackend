@@ -11,6 +11,7 @@ import entities.Talk;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.WebApplicationException;
 import java.util.List;
 
 public class ConferenceFacade {
@@ -36,18 +37,26 @@ public class ConferenceFacade {
     //CREATE CONFERENCE BY ITSELF
     public ConferenceDTO createConference(ConferenceDTO conferenceDTO) {
         EntityManager em = emf.createEntityManager();
-        Conference conference = new Conference(conferenceDTO.getName(), conferenceDTO.getLocation(), conferenceDTO.getCapacity(), conferenceDTO.getDate(), conferenceDTO.getTime());
-        try {
-            em.getTransaction().begin();
-            em.persist(conference);
-            em.getTransaction().commit();
+        if (conferenceDTO.getCapacity() > 50000 || conferenceDTO.getCapacity() < 1) {
+            throw new WebApplicationException("Maximum 50000" + conferenceDTO.getCapacity() + "Minimum 1");
+        } else if (conferenceDTO.getDate().isEmpty()|| conferenceDTO.getDate().length()>=11) {
+            throw new WebApplicationException("There has to be a valid date");
+        } else if (conferenceDTO.getTime().isEmpty() || conferenceDTO.getTime().length() >=6) {
+            throw new WebApplicationException("Type any hours of the day example: 12:00");
+        } else {
 
-            return new ConferenceDTO(conference);
-        } finally {
-            em.close();
+            Conference conference = new Conference(conferenceDTO.getName(), conferenceDTO.getLocation(), conferenceDTO.getCapacity(), conferenceDTO.getDate(), conferenceDTO.getTime());
+            try {
+                em.getTransaction().begin();
+                em.persist(conference);
+                em.getTransaction().commit();
+
+                return new ConferenceDTO(conference);
+            } finally {
+                em.close();
+            }
         }
     }
-
 
     // USERSTORY 1
     public ConferenceDTOs getAllConferences() {
