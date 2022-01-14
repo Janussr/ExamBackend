@@ -7,6 +7,7 @@ import facades.ConferenceFacade;
 import facades.TalkFacade;
 import utils.EMF_Creator;
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -38,6 +39,7 @@ public class TalkResource {
 
     @Path("/all")
     @GET
+    @RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllTalks(){
         return gson.toJson(facade.getAllTalks());

@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.Speaker.SpeakerDTO;
 import dtos.Speaker.SpeakerDTOs;
 import dtos.Talk.TalkDTOs;
 import entities.Speaker;
@@ -39,6 +40,26 @@ public class SpeakerFacade {
             List<Speaker> speakerList = query.getResultList();
             return new SpeakerDTOs(speakerList);
         } finally {
+            em.close();
+        }
+    }
+
+
+    public SpeakerDTO editSpeaker(SpeakerDTO speakerDTO){
+        EntityManager em = emf.createEntityManager();
+        try {
+            Speaker speaker = em.find(Speaker.class, speakerDTO.getId());
+
+            speaker.setName(speakerDTO.getName());
+            speaker.setProfession(speakerDTO.getProfession());
+            speaker.setGender(speakerDTO.getGender());
+
+            em.getTransaction().begin();
+            em.merge(speaker);
+            em.getTransaction().commit();
+            return new SpeakerDTO(speaker);
+
+        }finally {
             em.close();
         }
     }

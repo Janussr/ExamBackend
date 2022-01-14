@@ -99,15 +99,17 @@ public class TalkFacade {
         }
     }
 
-    public TalkDTO getSpecificTalk(int talkId)
+    public TalkDTO getSpecificTalk(int id)
     {
         EntityManager em = emf.createEntityManager();
 
-        Talk talk = em.find(Talk.class, talkId);
+        try {
+            Talk talk = em.find(Talk.class, id);
 
-        TalkDTO talkDto = new TalkDTO(talk);
-
-        return talkDto;
+            return new TalkDTO(talk);
+        } finally {
+            em.close();
+        }
     }
 
     //US -5

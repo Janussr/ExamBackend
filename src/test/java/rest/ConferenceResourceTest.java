@@ -157,10 +157,13 @@ public class ConferenceResourceTest {
 
     @Test
     public void testDelete() {
-
+       // login("admin","test2");
+        //login("user","test1");
 
         given()
                 .contentType("application/json")
+                .accept("application/json")
+               // .header("x-access-token", securityToken)
                 .pathParam("id", t2.getId())
                 .delete("/talk/{id}")
                 .then()
@@ -189,6 +192,8 @@ public class ConferenceResourceTest {
     //TODO: Get THIS TEST TO WORK.
     @Test
     public void testGetAll() {
+       //  login("admin","test2");
+      //  login("user","test1");
         List<ConferenceDTO> conferences;
 
 
@@ -199,6 +204,7 @@ public class ConferenceResourceTest {
         conferences = given()
                 .contentType("application/json")
                 .accept(ContentType.JSON)
+              //  .header("x-access-token", securityToken)
                 .get("/conference/all").then()
                 .extract()
                 .body()

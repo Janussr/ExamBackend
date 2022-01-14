@@ -110,11 +110,6 @@ class TalkFacadeTest {
         }
     }
 
-    //TODO: CREATETALK TEST & REST
-    //TODO: GETALLTALKS TEST & REST
-    //TODO: GETALLTALKS IN SPECIFIC CONFERENCE TEST & REST
-    //TODO: DELETE TALKS TEST & REST
-
 
     @Test
     public void createTalksTest(){
